@@ -1,7 +1,13 @@
-<?php class Thread extends AppModel {
+<?php 
+class Thread extends AppModel {
 	public $name = "threads"; 
+//	public $components = array("Session"); 
 	public function insertAThread($threadName){
 		$time = date("Y-m-d H:i:s");
-		$this->save(array("threadName" => $threadName, "ownerID" => "1", "time" => $time)); 
+//		$ownerID = $this->Session->read("id"); 
+		$this->save(array("threadName" => $threadName, "ownerID" => $ownerID, "time" => $time)); 
+		
 	}
+
+
 }

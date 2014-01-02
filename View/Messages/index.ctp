@@ -55,8 +55,8 @@
 					addedUserName = $("#ipUser").val(); 
 						$.ajax({
 							type: "POST",
-							data: { "addmember":"true", "username":　addedUserName},
-							url: {"control":"messeages", "action":"checkMember"}
+							data: { "addmember":"true", "username":　"loc"},
+							url: "<?php echo Router::url(array('controller'=>'messages','action'=>'checkMember'));?>",
 						}).done(function (msg){
 							console.log("gia tri message tra ve "+msg);  
 							if (msg=="ok"){

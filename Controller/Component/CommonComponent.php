@@ -1,55 +1,8 @@
-<?php
-class CommonComponent extends Object {
-	
-	//called before Controller::beforeFilter()
-
-    function initialize(&$controller, $settings = array()) {
-
-        // saving the controller reference for later use
-
-        $this->controller =& $controller;
-
+<?php 
+class CommonComponent extends Component {
+    public $components = array("Session"); 
+    public function setThreadTmp($threadname){
+        $this->Thread = ClassRegistry::init('Thread');
+        
     }
-
- 
-
-    //called after Controller::beforeFilter()
-
-    function startup(&$controller) {
-
-               }
-
- 
-
-    //called after Controller::beforeRender()
-
-    function beforeRender(&$controller) {
-
-    }
-
- 
-
-    //called after Controller::render()
-
-    function shutdown(&$controller) {
-
-    }
-
- 
-
-    //called before Controller::redirect()
-
-    function beforeRedirect(&$controller, $url, $status=null, $exit=true) {
-
-    }
-
- 
-
-    function redirectSomewhere($value) {
-
-        // utilizing a controller method
-
-    }
-
-	
 }
