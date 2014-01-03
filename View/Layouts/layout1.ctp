@@ -14,15 +14,13 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $cakeDescription ?>:
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
-		echo $this->Html->meta('icon');
-
-		echo $this->Html->css('cake.generic');
+//		echo $this->Html->css("cake.generic.css"); 
 		echo $this->Html->css('bootstrap-theme.css');
-//		echo $this->Html->css('bootstrap.css');
+		echo $this->Html->css('bootstrap.css');
+//		echo $this->Html->css("mine.css"); 
 		echo $this->Html->script('jquery.js');
 		echo $this->Html->script("bootstrap.js"); 
 		 
@@ -34,25 +32,21 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	?>
 </head>
 <body>
+	<div class = "navbar navbar-default"> <a class = "navbar-brand"> Chat System</a> </div> 
 	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
+		<div>
+			<h1><?php //echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
 		</div>
-		<div id="content">
+		<div id="content" class = "container theme-showcase">
 
 			<?php echo $this->Session->flash(); ?>
-
+			<h1><?php echo "<div class = 'page-header'>$title </div>" ;?></h1>    
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
+			<?php echo $this->Html->link("Project ChatSystem - LocDX HEDSPI k54", "http://facebook.com/dinh.loc1"); ?>  
 		</div>
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+	<?php //echo $this->element('sql_dump'); ?>
 </body>
 </html>

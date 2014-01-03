@@ -1,9 +1,3 @@
-<!-- create a new thread with specific users  --> 
-<?php 
-//echo $this->Form->create("Message", array("action" => "index", "type" => "post")); 
-//echo $this->Form->input("username", array("width"=>"30"));  
-//echo $this->Form->end("Add User"); 
-?>  
 <html>
 <style>
 #error{
@@ -13,93 +7,122 @@
 #memberList{
 	color: green;
 }
-
-#dvThread{
+#thread{
 	width: 700px;
 	height: 400px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: red; 
-	overflow: scroll;
+	overflow: auto;
+	 
 }
 
-#chatroom{
-	float:left;
-}
-#dvInput{
-
-}
-
-.hide{
-	display: none;
-}
-
-#otherroom{
-	margin-top: 100px;
-	width: 500px; 
-	border-style: solid;
-	border-width: 1px;
-	border-color: red; 
-	float:right;
-}
 </style>
-<head>
-	<?php echo $this->Html->script(array('jquery.js')); ?>
 	<script>
-		var getMessage; 
-		threadID = -1; 
 		$(document).ready(function(){
-			$("#ipUser").on("keypress", function(e){
+			$("#tfMessage").on("keypress", function(e){
 				if (e.which  == 13){
 					console.log("nut enter duoc bam");
-					addedUserName = $("#ipUser").val(); 
+					content = $("#tfMessage").val(); 
 						$.ajax({
 							type: "POST",
-							data: { "addmember":"true", "username":　"loc"},
-							url: "<?php echo Router::url(array('controller'=>'messages','action'=>'checkMember'));?>",
+							data: { "message":"true", "content":　content},
+							url: "<?php echo Router::url(array('controller'=>'messages','action'=>'insertMessage'));?>",
 						}).done(function (msg){
-							console.log("gia tri message tra ve "+msg);  
-							if (msg=="ok"){
-								console.log("da co nguoi ten la "+addedUserName);
-								if (members.indexOf(addedUserName)==-1){
-									members.push(addedUserName);
-									$("#memberList").append(addedUserName+ ", ");
-								}
-								$("#error").html();
-							}else {
-								console.log("do not exist user "+ addedUserName);
-								$("#error").html("error : chua co user ten la "+addedUserName);
-							}
-						});   
+							console.log("gia tri tra ve "+msg); 
+							$("#threadcon").append(content+"<br>");
+							$("#tfMessage").val("");  
+							document.getElementById('tail').scrollIntoView(); 
+						}); 
+
 				}
 			}); 
+
+			function getMessageManyTimes(){
+				var t = setInterval(function(){
+					$.ajax({
+						type:"POST", 
+						url: "<?php echo Router::url(array('controller'=>'messages','action'=>'getAllMessage'));?>", 
+					}).done(function (msg){
+					//	console.log("gia tri message tra ve "+msg); 
+						message_r = JSON.parse(msg) ; 
+						messages = ""; 
+						for(i = 0; i < message_r.length; i++){
+						 	message = message_r[i]["Message"]["content"];
+						 	id = message_r[i]["Message"]["ID"]; 
+						 	messages = messages + "<div>" + message + "<button onclick='removeMessage("+id+")' class='btn btn-primary'>Remove</button><button onclick='editMessage("+id+")'　class='btn btn-primary'　>Edit</button> "+ "</div>"; 
+						 	console.log(message); 
+
+					//	 	$("#thread").append(message); 		
+						}
+						$("#threadcon").html(messages); 
+					//	$("#tail").before(messages)
+					//	console.log(message_r);
+			//			$("#thread").html(msg); 
+					}); 
+				},1000);
+			}
+
+			// getMessage= function(){
+			// 	$.ajax({
+			// 		type:"POST", 
+			// 		url: "handle.php", 
+			// 		data:{"getMessage":"true", "threadID":threadID},
+			// 	}).done(function (msg){
+			// 		//console.log(msg);
+			// 		console.log("gia tri message tra ve "+msg);  
+			// 		$("#thread").html(msg); 
+			// 	}); 
+			// }
+			getMessageManyTimes(); 
 		}); 
+	
+		function removeMessage($idMs){
+			$.ajax({
+				type: "POST", 
+				data:{"idMs":$idMs}, 
+				url:"<?php echo Router::url(array('controller'=>'messages','action'=>'remove'));?>",  
+				success : function(ms){
+					if (ms=="fail"){
+						alert("it is not your message"); 
+					}
+				}, 
+				error : function(){
+					console.log("problem occur at remove message"); 
+				}
+			}); 
+		}
+	
+		function editMessage($idMs){
+			val = $("#ms"+$idMs).text();
+			console.log("gia tri val "+val );  
+			ms = prompt("value you want to edit ",val);
+			if (ms!=val){
+				$.ajax({
+				type: "POST", 
+				data:{"idMs":$idMs, "newContent":ms}, 
+				url:"<?php echo Router::url(array('controller'=>'messages','action'=>'edit'));?>", 
+				success : function(ms){
+					if (ms=="fail") alert("it is not your message"); 
+					console.log(ms); 
+				}, 
+				error : function(){
+					console.log("problem occur at edit message"); 
+				}
+				}); 
+			}
+		}
+
 
 	</script>
 </head>
-<body>
-	<div id = "chatroom">
-		<button id = "btnLogout"> Logout </button> 
-		<div id = "createMembers"> 
-			Who you want to chat with 
-			<input id = "ipUser" type = "text" size = 20 />
-			<div id = "memberList" ></div>
-			<div id = "error"> 
-			</div>
-		</div>	
-<!-- 
-		<div id="createNewThread"><button id = 'newThreadBt'> Create New Thread </button></div> 
-		<div id = "dvThread"></div>
-		<div id = "dvInput"> 
-			Input <input id="tfinput" type="text" size = 30 /> 
-			<button id ="btnSend" > Send </button> 
-
-		</div> -->
-	</div>
-	<div id="otherroom"> 
-		
-	</div>
-
+<body>				
+<div id="thread"> <div id = "threadcon"> </div>  <div id ="tail"> </div> </div>
+	<?php 
+	//	echo $this->Form->create("Message", array("action" => "insertMessage", "type" => "post")); 
+	//	echo $this->Form->input("input", array("label"=>"Input", "id"=>"tfMessage"));  
+	//	echo $this->Form->end("Send");
+	?>  
+	<input type = "text" id = "tfMessage" length = "10px"/> 
 </body>
-
 </html>

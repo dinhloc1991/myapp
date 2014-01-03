@@ -45,11 +45,11 @@ h1, h2, h3, h4 {
 	font-weight: normal;
 	margin-bottom:0.5em;
 }
-h1 {
+/*h1 {
 	background:#fff;
 	color: #003d4c;
 	font-size: 100%;
-}
+}*/
 h2 {
 	background:#fff;
 	color: #e32;
@@ -76,10 +76,10 @@ p {
 #container {
 	text-align: left;
 }
-
+/*
 #header{
-	padding: 10px 20px;
-}
+	padding: 10px 10px;
+}*/
 #header h1 {
 	line-height:20px;
 	background: #003d4c url('../img/cake.icon.png') no-repeat left;
@@ -106,11 +106,11 @@ p {
 }
 #footer {
 	clear: both;
-	padding: 6px 10px;
+	padding: 6px 5px;
 	text-align: right;
 }
 #header a, #footer a {
-	color: #fff;
+	color: blue;
 }
 
 /** containers **/
@@ -317,7 +317,7 @@ input, textarea {
 	font-size: 140%;
 	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
 	padding: 1%;
-	width:98%;
+	width:20%;
 }
 select {
 	clear: both;

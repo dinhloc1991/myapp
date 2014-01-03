@@ -1,10 +1,11 @@
 <?php 
 class UsersController extends AppController {
-	
+	public $layout = "layout1"; 
 	public function index(){
 		$this->redirect(array("controller" => "users", "action"=> "login"));  
 	}
 	public function login(){
+		$this->set("title", "LOGIN PAGE"); 
 		if($this->request->is("post")){
 			$username = $this->data["User"]["username"]; 
 			$password = $this->data["User"]["password"];
@@ -12,6 +13,7 @@ class UsersController extends AppController {
 			if ($data==null){
 			$this->Session->setFlash(__("Dont have member has username ".$username." and password ".$password));
 			}else {
+
 				$this->Session->setFlash(__("OK"));
 			//	$id = $this->User->getID(array("username"=>$username));
 				$id = $this->User->getIdUser($username); 
