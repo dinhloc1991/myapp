@@ -11,6 +11,7 @@ class ThreadsController extends AppController{
 		
 	}
 	public function createNewThread(){
+		$this->set("title",  "CREATE A NEW THREAD");
 		if ($this->request->is("post")){
 			$threadName = $this->data["Thread"]["threadName"]; 
 			$time = date("Y-m-d H:i:s");
@@ -19,7 +20,7 @@ class ThreadsController extends AppController{
 			$this->Session->write("threadIDTmp", $this->Thread->getInsertId()); 
    		    $this->Session->write("threadTmp", $threadname); 
 			$this->redirect(array("action"=> "index")); 
-		}
+			}
 	}
 	public function remove($id){
 		if ($this->request->is("get")){

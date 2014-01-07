@@ -14,10 +14,10 @@ class UsersController extends AppController {
 			$this->Session->setFlash(__("Dont have member has username ".$username." and password ".$password));
 			}else {
 
-				$this->Session->setFlash(__("OK"));
+		//		$this->Session->setFlash(__("OK"));
 			//	$id = $this->User->getID(array("username"=>$username));
 				$id = $this->User->getIdUser($username); 
-				$this->Session->setFlash(__("gia tri id cu nguoi dung ".$id)); 
+			//	$this->Session->setFlash(__("gia tri id cu nguoi dung ".$id)); 
 				$this->saveUser($username, $password,$id ); 
 				$this->redirect(array("controller" => "threads", "action"=> "index"));  
 			}
@@ -29,6 +29,7 @@ class UsersController extends AppController {
 		$this->redirect(array("controller"=> "users", "action"=> "index")); 
 	}
 	public function register(){
+		$this->set("title", "REGISTER PAGE"); 
 		if ($this->request->is("post")) {
 			$this->User->set($this->data); 
 			$un = $this->data["User"]["username"]; 

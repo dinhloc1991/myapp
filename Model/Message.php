@@ -2,6 +2,10 @@
 class Message extends AppModel{
 	public $name = "messages";
 	public $primaryKey = "ID";  
+#	public $belongsTo = 	array(
+#		"User"=> array("foreignKey" => "ownerID")
+#	); 
+//	public $foreignKey = "ownerID";
 	// public function update($id, $newContent){
 	// 	$time = date("Y-m-d H:i:s");
 	// 	$this->update(array("content"=> $newContent, "time"=>$time), array("id"=>$id)); 

@@ -1,6 +1,8 @@
 <?php 
 class User extends AppModel{
 	public $name = "users"; 
+#	public $hasMany = "Message";
+	public $primaryKey = "ID";  
 	public $validate = array(
 		"username" => array(
 			"rule"=> array("minLength", 4), 

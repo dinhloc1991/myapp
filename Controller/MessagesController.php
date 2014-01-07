@@ -1,6 +1,7 @@
 <?
 class MessagesController extends AppController{
 	public $components = array("Common"); 
+	public $layout = "layout1" ; 
 	public function index(){
 		// if ($this->request->is("post")){
 		// 	$user = $this->data["Message"]["username"]; 
@@ -14,6 +15,7 @@ class MessagesController extends AppController{
 		// }else {
 		// 	$user_r = array() ; 
 		// }
+		$this->set("title", "Chat Room"); 
 	}
 	public function checkMember(){
 		$this->autoRender = false;  
@@ -25,6 +27,7 @@ class MessagesController extends AppController{
 		// }
 	}	
 	public function insertMessage(){
+
 		$this->autoRender = false; 
 		if($this->request->is("post")){
 			$content = $this->data["content"]; 
@@ -39,7 +42,20 @@ class MessagesController extends AppController{
 	public function getAllMessage(){
 		$this->autoRender = false; 
 		$threadIDTmp = $this->Session->read("threadIDTmp"); 
-		$data =  $this->Message->find("all", array("conditions"=>array("threadID"=>$threadIDTmp))); 
+		$options["fields"] = array(
+			"Message.*", 
+			"User.*"); 
+		$options["joins"] = array(
+			array("table"=> "users",
+				"alias"=>"User",
+				"foreignKey" => "ownerID",   
+			 	"conditions" => array("Message.ownerID=User.ID")// AND Message.threadID = $threadIDTmp")
+			)
+		); 
+		$options["conditions"] = array("Message.threadID" => $threadIDTmp); 
+		$data = $this->Message->find("all", $options); 		
+		#$data =  $this->Message->find("all", array("conditions"=>array("threadID"=>$threadIDTmp))); 
+	
 	//	$return = ""; 
 		// foreach($data as $item){
 		// 	$return = $return.$item["Message"]["content"].",";
@@ -63,6 +79,7 @@ class MessagesController extends AppController{
 		$this->autoRender = false;
 		$id = $this->data["idMs"]; 
 		if ($this->checkOwner($id)){
+		//	echo "co thang nay"; 
 			$this->Message->deleteAll(array("ID"=> $id)); 
 		}else echo "fail"; 
 	}

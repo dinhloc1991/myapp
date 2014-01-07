@@ -43,10 +43,17 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 			<h1><?php echo "<div class = 'page-header'>$title </div>" ;?></h1>    
 			<?php echo $this->fetch('content'); ?>
 		</div>
-		<div id="footer">
-			<?php echo $this->Html->link("Project ChatSystem - LocDX HEDSPI k54", "http://facebook.com/dinh.loc1"); ?>  
-		</div>
+		
 	</div>
-	<?php //echo $this->element('sql_dump'); ?>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<p id="footer" sytle={margin-bottom : 0px ;} class  = "alert alert-success">
+			<?php echo $this->Html->link("Project ChatSystem - LocDX HEDSPI k54", "http://facebook.com/dinh.loc1"); ?>  
+	</p> 
+	<?php    echo $this->element('sql_dump'); ?>
 </body>
 </html>

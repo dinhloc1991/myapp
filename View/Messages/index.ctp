@@ -17,6 +17,16 @@
 	 
 }
 
+.rmbtn{
+	float: right;
+}
+.edbtn{
+	float : right;
+}
+
+#msDiv{
+	margin-bottom: 20px; 
+}
 </style>
 	<script>
 		$(document).ready(function(){
@@ -49,8 +59,13 @@
 						messages = ""; 
 						for(i = 0; i < message_r.length; i++){
 						 	message = message_r[i]["Message"]["content"];
+						 	user = message_r[i]["Message"]["ownerID"]
+						 	time = message_r[i]["Message"]["time"]
 						 	id = message_r[i]["Message"]["ID"]; 
-						 	messages = messages + "<div>" + message + "<button onclick='removeMessage("+id+")' class='btn btn-primary'>Remove</button><button onclick='editMessage("+id+")'　class='btn btn-primary'　>Edit</button> "+ "</div>"; 
+						 	user = message_r[i]["User"]["username"]
+						 	messages = messages + "<div id='msDiv'>" + user + "(" + time + ")" + " : " + message + 
+						 	"<button onclick='removeMessage("+id+")' class='btn btn-primary rmbtn'>Remove</button>"+
+						 	"<button onclick='editMessage("+id+")' class='btn btn-primary edbtn'>Edit</button> "+ "</div>"; 
 						 	console.log(message); 
 
 					//	 	$("#thread").append(message); 		
@@ -78,11 +93,13 @@
 		}); 
 	
 		function removeMessage($idMs){
+			console.log("idmessage "+$idMs)
 			$.ajax({
 				type: "POST", 
 				data:{"idMs":$idMs}, 
 				url:"<?php echo Router::url(array('controller'=>'messages','action'=>'remove'));?>",  
 				success : function(ms){
+					console.log(ms); 
 					if (ms=="fail"){
 						alert("it is not your message"); 
 					}
@@ -123,6 +140,7 @@
 	//	echo $this->Form->input("input", array("label"=>"Input", "id"=>"tfMessage"));  
 	//	echo $this->Form->end("Send");
 	?>  
-	<input type = "text" id = "tfMessage" length = "10px"/> 
+	<div style = "width:500px; margin-top:5px" > <input type = "text" id = "tfMessage" class = "form-control" /> 
+</div>
 </body>
 </html>
